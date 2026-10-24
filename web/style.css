@@ -468,3 +468,20 @@ legend { font-size: 1rem; }
 .complexidade li { background: var(--track); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 2px; }
 .complexidade strong { font-family: var(--display); font-size: 1.05rem; }
 .complexidade span { color: var(--muted); font-size: 0.92rem; }
+
+/* ressalva recolhida */
+.ressalva { margin-top: 16px; padding: 0; }
+.ressalva summary { list-style: none; cursor: pointer; padding: 16px 48px 16px 20px; position: relative; display: grid; gap: 2px; }
+.ressalva summary::-webkit-details-marker { display: none; }
+.ressalva summary::after {
+  content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line);
+  display: grid; place-items: center; color: var(--accent); font-weight: 600;
+}
+.ressalva[open] summary::after { content: "−"; }
+.ressalva .sobretitulo { margin: 0; color: var(--muted); }
+.ressalva-titulo { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+.ressalva-corpo { padding: 0 20px 20px; display: grid; gap: 10px; max-width: 75ch; color: var(--muted); }
+.ressalva-corpo strong { color: var(--ink); }
+.ressalva-corpo ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.ressalva-aviso { border-left: 3px solid var(--cc); padding: 8px 12px; background: var(--track); border-radius: 0 8px 8px 0; }
