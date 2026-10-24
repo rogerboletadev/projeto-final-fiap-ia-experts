@@ -413,3 +413,19 @@ legend { font-size: 1rem; }
   .tabela-ideias td { display: block; border: 0; padding: 2px 0; }
   .tabela-ideias td:first-child { font-weight: 600; }
 }
+
+/* power squad */
+.formatos { padding-block: 8px 56px; }
+.formatos h2 { font-size: clamp(1.5rem, 4.5vw, 2.25rem); }
+.sobretitulo { display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.formatos .lead { max-width: 62ch; }
+.formato { height: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.formato h3 { font-size: 1.4rem; }
+.formato > p { color: var(--muted); }
+.formato .rotulo { margin: 0; }
+.formato-custo { font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 5vw, 2.2rem); color: var(--ink) !important; margin-top: 12px; }
+.formato-legenda { font-size: 0.85rem; margin-bottom: 12px; }
+.formato .btn { margin-top: auto; }
+.formato-destaque { border: 2px solid var(--good); }
+.economia { margin-top: 16px; font-size: 1.1rem; }
+.economia strong { color: var(--good); }

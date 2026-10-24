@@ -23,6 +23,12 @@
         { cargo: 'Desenvolvedor Frontend N3', qtd: 1 },
         { cargo: 'Analista de Testes N2', qtd: 1 }
       ]
+    },
+    power: {
+      ini: 'Janeiro', fim: 'Dezembro',
+      linhas: [
+        { cargo: 'Desenvolvedor Full Stack N3', qtd: 2 }
+      ]
     }
   };
 
@@ -90,6 +96,27 @@
     estado.linhas = e.linhas.map(function (l) { return { cargo: l.cargo, qtd: l.qtd }; });
     desenharLinhas();
     render();
+  }
+
+  // Compara o squad tradicional com o power squad na consultoria mais barata de cada um.
+  function compararFormatos() {
+    var alvo = document.getElementById('formatos');
+    if (!alvo) return;
+    function custo(chave) {
+      var e = EXEMPLOS[chave];
+      var r = simular(D, {
+        mes_inicio: e.ini, mes_fim: e.fim,
+        squad_request: e.linhas.map(function (l) { return { cargo: l.cargo, quantidade: l.qtd }; })
+      });
+      var melhor = r.resultados.filter(function (x) { return x.consultoria === r.mais_barata; })[0];
+      return { total: melhor.total, consultoria: r.mais_barata };
+    }
+    var trad = custo('squad');
+    var power = custo('power');
+    document.getElementById('custo-squad').textContent = brl(trad.total);
+    document.getElementById('custo-power').textContent = brl(power.total);
+    document.getElementById('economia').textContent = brl(trad.total - power.total) + ' (' +
+      pct(Math.round((1 - power.total / trad.total) * 1000) / 10) + '%)';
   }
 
   function pct(n) { return String(n).replace('.', ','); }
@@ -196,8 +223,12 @@
     render();
   });
   Array.prototype.forEach.call(document.querySelectorAll('[data-exemplo]'), function (b) {
-    b.addEventListener('click', function () { carregarExemplo(b.getAttribute('data-exemplo')); });
+    b.addEventListener('click', function () {
+      carregarExemplo(b.getAttribute('data-exemplo'));
+      if (b.hasAttribute('data-rolar')) document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
+    });
   });
 
   carregarExemplo('pedido');
+  compararFormatos();
 })();

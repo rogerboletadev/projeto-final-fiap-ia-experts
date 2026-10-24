@@ -54,6 +54,7 @@
             <span class="rotulo">Começar por um exemplo</span>
             <button type="button" class="chip" data-exemplo="pedido">2 Backend N3 e 1 Full Stack N3</button>
             <button type="button" class="chip" data-exemplo="squad">Squad de 5 pessoas</button>
+            <button type="button" class="chip" data-exemplo="power">Power squad: 2 engenheiros</button>
           </div>
 
           <fieldset class="periodo">
@@ -75,6 +76,37 @@
 
         <div class="painel saida" aria-live="polite" id="saida"></div>
       </div>
+    </section>
+
+    <section class="formatos wrap" id="formatos" aria-labelledby="t-formatos">
+      <span class="sobretitulo">O time está mudando</span>
+      <h2 id="t-formatos">Squads menores, apoiados por IA</h2>
+      <p class="lead">O mercado está migrando para o <strong>power squad</strong>: poucos engenheiros de software, com IA no dia a dia, tocando projetos que antes pediam um time inteiro. A quantidade de engenheiros acompanha a complexidade de cada projeto.</p>
+
+      <div class="row g-3 mt-2">
+        <div class="col-md-6">
+          <div class="painel formato">
+            <span class="rotulo">Squad tradicional</span>
+            <h3>5 pessoas</h3>
+            <p>1 Full Stack, 2 Backend, 1 Frontend (todos N3) e 1 QA N2</p>
+            <p class="formato-custo" id="custo-squad">–</p>
+            <p class="formato-legenda">por ano, na consultoria mais barata</p>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-exemplo="squad" data-rolar>Simular este time</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="painel formato formato-destaque">
+            <span class="rotulo">Power squad</span>
+            <h3>2 engenheiros + IA</h3>
+            <p>2 Desenvolvedores Full Stack N3</p>
+            <p class="formato-custo" id="custo-power">–</p>
+            <p class="formato-legenda">por ano, na consultoria mais barata</p>
+            <button type="button" class="btn btn-primary btn-sm" data-exemplo="power" data-rolar>Simular este time</button>
+          </div>
+        </div>
+      </div>
+      <p class="economia">Diferença no ano: <strong id="economia">–</strong></p>
+      <p class="nota">O PM do power squad não entra na conta: normalmente ele não é recurso do coordenador de TI, e sim de outra área. O simulador compara só o custo com engenheiros das consultorias.</p>
     </section>
 
     <section class="como wrap" id="como" aria-labelledby="t-como">
