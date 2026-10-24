@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guia do n8n | Squad Cost Copilot</title>
+  <meta name="description" content="Passo a passo para rodar o Squad Cost Copilot no n8n e os motivos para usar o n8n em projetos de IA.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231F4FFF'/%3E%3Crect x='6' y='8' width='20' height='4' rx='2' fill='white'/%3E%3Crect x='6' y='14' width='14' height='4' rx='2' fill='white' opacity='.8'/%3E%3Crect x='6' y='20' width='9' height='4' rx='2' fill='white' opacity='.6'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="wrap topo-inner">
+      <a class="marca" href="index.html">Squad Cost Copilot</a>
+      <nav class="topo-nav" aria-label="Principal">
+        <a href="index.html">Simulador</a>
+        <a href="guia-n8n.html" aria-current="page">Guia do n8n</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="guia">
+    <section class="hero wrap" aria-labelledby="titulo">
+      <h1 id="titulo">Como rodar o Squad Cost Copilot no n8n</h1>
+      <p class="lead">Quatro nós e nenhum arquivo para ler. No fim você tem um chat que recebe o pedido em texto e devolve a comparação entre as consultorias.</p>
+      <nav class="atalhos" aria-label="Nesta página">
+        <a class="chip" href="#passos">Passo a passo</a>
+        <a class="chip" href="#problemas">Problemas comuns</a>
+        <a class="chip" href="#porque">Por que n8n</a>
+      </nav>
+    </section>
+
+    <section class="wrap" id="passos" aria-labelledby="t-passos">
+      <h2 id="t-passos" class="titulo-secao">Passo a passo</h2>
+
+      <ol class="passos etapas">
+        <li>
+          <h3>Suba o n8n</h3>
+          <p>Se você já tem n8n (Cloud ou instalado), pule para o passo 2. Para testar na sua máquina com Docker:</p>
+          <div class="codigo">
+            <button type="button" class="copiar" data-alvo="cod-docker">Copiar</button>
+            <pre id="cod-docker">docker volume create n8n_data
+
+docker run -d --restart unless-stopped --name n8n \
+  -p 5678:5678 \
+  -v n8n_data:/home/node/.n8n \
+  docker.n8n.io/n8nio/n8n</pre>
+          </div>
+          <p>Abra <code>http://localhost:5678</code> e crie a conta de administrador. Também dá para usar o n8n Cloud, sem instalar nada.</p>
+          <p class="nota">Esse modo serve só para testar. Para uso de verdade, o n8n precisa de HTTPS, banco Postgres e backup. Veja a <a href="https://docs.n8n.io" rel="noopener">documentação oficial</a> para a versão atual das instruções.</p>
+        </li>
+
+        <li>
+          <h3>Crie a credencial do Gemini</h3>
+          <p>Gere uma chave de API no Google AI Studio. No n8n, abra Credentials, crie uma nova credencial, procure por Google Gemini e cole a chave.</p>
+          <p>Não coloque a chave em arquivo do projeto, em repositório ou em print.</p>
+        </li>
+
+        <li>
+          <h3>Adicione o gatilho de chat</h3>
+          <p>Crie um workflow novo e adicione o gatilho <strong>When chat message received</strong> (Chat Trigger). Não precisa mudar nada. A mensagem do usuário chega em <code>{{ $json.chatInput }}</code>.</p>
+        </li>
+
+        <li>
+          <h3>Adicione o Gemini para extrair o pedido</h3>
+          <p>Adicione o nó <strong>Google Gemini</strong> com a ação <strong>Message a model</strong> e escolha a credencial do passo 2. Escolha um modelo Gemini da lista disponível na sua conta.</p>
+          <p>Na mensagem do usuário, use:</p>
+          <div class="codigo">
+            <button type="button" class="copiar" data-alvo="cod-chat">Copiar</button>
+            <pre id="cod-chat">{{ $json.chatInput }}</pre>
+          </div>
+          <p>Na instrução de sistema (System Message, dentro de Options) cole o prompt abaixo. Se o seu nó não tiver esse campo, cole o prompt no início da mensagem. Se houver opção de saída em JSON, ative.</p>
+          <div class="codigo">
+            <button type="button" class="copiar" data-fonte="prompt">Copiar prompt</button>
+            <pre id="cod-prompt" class="rolavel"></pre>
+          </div>
+          <p class="nota">O prompt já traz a lista de cargos do catálogo. Se você mudar os CSVs, rode <code>node scripts/build.js</code> e copie de novo. Ele assume que júnior, pleno e sênior valem N1, N2 e N3, uma hipótese que precisa de confirmação.</p>
+        </li>
+
+        <li>
+          <h3>Adicione o Code com o motor de cálculo</h3>
+          <p>Adicione o nó <strong>Code</strong>, com Language em <strong>JavaScript</strong> e Mode em <strong>Run Once for All Items</strong>. Apague o conteúdo e cole o código.</p>
+          <div class="codigo">
+            <button type="button" class="copiar" data-fonte="codigo">Copiar código</button>
+          </div>
+          <details class="detalhe">
+            <summary>Ver o código antes de copiar</summary>
+            <div class="codigo">
+              <pre id="cod-code" class="rolavel"></pre>
+            </div>
+          </details>
+          <p>Os valores das consultorias já vão dentro do código, então não há CSV para ler nem biblioteca para instalar. É aqui que a conta é feita, não no modelo.</p>
+        </li>
+
+        <li>
+          <h3>Teste no chat</h3>
+          <p>Salve o workflow, clique em <strong>Open chat</strong> e envie:</p>
+          <div class="codigo">
+            <button type="button" class="copiar" data-alvo="cod-teste">Copiar</button>
+            <pre id="cod-teste">Preciso de 2 Backend N3 e 1 Full Stack N3 de janeiro a junho</pre>
+          </div>
+          <p>O resultado esperado, para conferir se está tudo certo:</p>
+          <div class="rolagem">
+            <table>
+              <thead><tr><th>Consultoria</th><th>Custo total</th></tr></thead>
+              <tbody>
+                <tr><td>Consultoria A</td><td>R$ 633.100,00</td></tr>
+                <tr><td>Consultoria B</td><td>R$ 713.693,63</td></tr>
+                <tr><td>Consultoria C</td><td>R$ 770.419,39</td></tr>
+                <tr><td>Consultoria D</td><td>R$ 832.336,57</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Teste também os caminhos de erro. Com <em>"preciso de 1 dev sr"</em> o assistente deve dizer que o cargo não está no catálogo e sugerir opções. Com <em>"1 Líder Técnico N4 de junho a março"</em> deve avisar que o mês final vem antes do inicial. Em nenhum dos dois ele devolve um custo parcial.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="wrap" id="problemas" aria-labelledby="t-prob">
+      <h2 id="t-prob" class="titulo-secao">Problemas comuns</h2>
+      <dl class="problemas">
+        <dt>O chat responde vazio</dt>
+        <dd>O Chat Trigger devolve o campo <code>output</code> do último nó. Confira que o Code é o último nó do fluxo e abra a saída dele para ver se o campo existe.</dd>
+
+        <dt>Aparece "Não entendi o pedido"</dt>
+        <dd>O Gemini não devolveu JSON puro. Abra a saída do nó Gemini e veja o que veio. Se vier texto solto, reforce no prompt a regra de responder somente JSON ou ative a saída em JSON do nó.</dd>
+
+        <dt>O Code dá erro ao ler a resposta do Gemini</dt>
+        <dd>Dependendo da versão, o texto vem em outro campo. Veja em que campo ele está na saída do nó Gemini e ajuste o bloco "Entrada", no fim do código. Ele já tenta <code>text</code>, <code>output</code> e <code>content.parts[0].text</code>.</dd>
+
+        <dt>Erro de modelo não encontrado</dt>
+        <dd>Troque o modelo na lista do nó Gemini por um que sua conta tenha disponível.</dd>
+
+        <dt>O total não bate com o esperado</dt>
+        <dd>Confira se o prompt e o código foram copiados depois da última alteração nos CSVs. Os dois são gerados pelo mesmo build.</dd>
+      </dl>
+    </section>
+
+    <section class="wrap" id="porque" aria-labelledby="t-porque">
+      <h2 id="t-porque" class="titulo-secao">Por que o n8n é bom para este projeto</h2>
+      <ul class="motivos">
+        <li>
+          <h3>Você enxerga o fluxo inteiro</h3>
+          <p>Cada etapa é um nó, e dá para abrir a entrada e a saída de cada um. Para depurar uma resposta errada do modelo e para explicar o projeto numa apresentação, isso economiza muito tempo.</p>
+        </li>
+        <li>
+          <h3>Os conceitos do curso já viram nós</h3>
+          <p>O n8n organiza a parte de IA em nós principais (agente, chain, vector store) e nós auxiliares (modelo de linguagem, memória, ferramenta, retriever, embeddings, document loader, text splitter). RAG, chunking e banco vetorial têm peça pronta, o que acelera a v2.</p>
+        </li>
+        <li>
+          <h3>Mistura low-code com código de verdade</h3>
+          <p>O nó Code roda JavaScript, então a regra de custo fica em código testável e o modelo só entende o pedido. É o desenho deste projeto.</p>
+        </li>
+        <li>
+          <h3>Dá para rodar no seu próprio servidor</h3>
+          <p>A edição Community pode ser instalada por você, o que ajuda quando o dado é sensível e não deve passar por uma plataforma de terceiros. Você paga o servidor, não por execução.</p>
+        </li>
+        <li>
+          <h3>Fala MCP</h3>
+          <p>O nó MCP Server Trigger transforma ferramentas e workflows do n8n em um servidor MCP, que outros agentes podem chamar. Isso encaixa na ideia de expor o cálculo de custo como ferramenta, prevista no roadmap.</p>
+        </li>
+        <li>
+          <h3>Gatilhos e conexões para o que vem depois</h3>
+          <p>Chat, webhook e agendamento são gatilhos nativos. Os alertas de alocação e a leitura de dados de outros sistemas entram como novos nós, sem reescrever o fluxo.</p>
+        </li>
+      </ul>
+
+      <h3 class="subtitulo">Onde o n8n tem limite</h3>
+      <ul class="motivos limites">
+        <li>
+          <h3>Fluxos de decisão complexos</h3>
+          <p>Para um agente que escolhe caminhos, mantém estado e se corrige, um grafo em código (LangGraph) dá mais controle. O n8n é ótimo para protótipo e orquestração. Por isso o roadmap leva o cérebro do agente para o LangGraph na v3.</p>
+        </li>
+        <li>
+          <h3>Testes e versionamento</h3>
+          <p>Um fluxo visual é mais difícil de testar e de revisar em pull request do que código. Por isso o motor de cálculo deste projeto vive fora do n8n, com testes, e o n8n só o chama.</p>
+        </li>
+        <li>
+          <h3>Licença</h3>
+          <p>O n8n é "source-available", não open source clássico. Usar internamente e para estudo é tranquilo, mas a licença restringe hospedar o n8n para clientes pagantes. Se este projeto virar um produto vendido, confira a licença antes.</p>
+        </li>
+        <li>
+          <h3>Produção dá trabalho</h3>
+          <p>Para sair do modo de teste são necessários HTTPS, banco Postgres, backup e atualização de versão. Quem não quer cuidar disso pode usar o n8n Cloud.</p>
+        </li>
+      </ul>
+
+      <h3 class="subtitulo">Referências</h3>
+      <ul class="refs">
+        <li><a href="https://docs.n8n.io/build/integrate-ai/langchain-in-n8n" rel="noopener">n8n Docs: LangChain no n8n (nós de IA)</a></li>
+        <li><a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.mcptrigger/" rel="noopener">n8n Docs: MCP Server Trigger</a></li>
+        <li><a href="https://dev.to/ali_ilyas/how-to-self-host-n8n-a-complete-beginners-guide-2026-412f" rel="noopener">DEV: guia de self-host do n8n (Docker e licença)</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <p>Projeto de estudo do curso FIAP Experts. Consultorias e valores fictícios. <a href="index.html">Voltar ao simulador</a></p>
+    </div>
+  </footer>
+
+  <script src="n8n-assets.js"></script>
+  <script src="guia.js"></script>
+</body>
+</html>
