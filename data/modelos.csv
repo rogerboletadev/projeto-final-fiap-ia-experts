@@ -1,0 +1,10 @@
+modelo,nome,cargo,quantidade
+X,Estrutura atual,Líder Técnico N4,1
+X,Estrutura atual,Arquiteto Federado,1
+X,Estrutura atual,Desenvolvedor Backend N3,2
+X,Estrutura atual,Desenvolvedor Frontend N3,1
+X,Estrutura atual,Analista de Testes N2,2
+Y,Power squad,Líder Técnico N4,1
+Y,Power squad,Desenvolvedor Full Stack N3,2
+Y,Power squad,Analista de Testes - Automação Funcional N2,1
+Z,Super Power Squad,Desenvolvedor Full Stack N3,2

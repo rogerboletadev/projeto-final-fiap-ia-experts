@@ -105,5 +105,61 @@ const SQUAD_DATA = {
     "Outubro": 184,
     "Novembro": 152,
     "Dezembro": 168
-  }
+  },
+  "modelos": [
+    {
+      "id": "X",
+      "nome": "Estrutura atual",
+      "squad": [
+        {
+          "cargo": "Líder Técnico N4",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Arquiteto Federado",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Desenvolvedor Backend N3",
+          "quantidade": 2
+        },
+        {
+          "cargo": "Desenvolvedor Frontend N3",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Analista de Testes N2",
+          "quantidade": 2
+        }
+      ]
+    },
+    {
+      "id": "Y",
+      "nome": "Power squad",
+      "squad": [
+        {
+          "cargo": "Líder Técnico N4",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Desenvolvedor Full Stack N3",
+          "quantidade": 2
+        },
+        {
+          "cargo": "Analista de Testes - Automação Funcional N2",
+          "quantidade": 1
+        }
+      ]
+    },
+    {
+      "id": "Z",
+      "nome": "Super Power Squad",
+      "squad": [
+        {
+          "cargo": "Desenvolvedor Full Stack N3",
+          "quantidade": 2
+        }
+      ]
+    }
+  ]
 };

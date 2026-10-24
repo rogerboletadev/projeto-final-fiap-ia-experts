@@ -23,32 +23,15 @@
         { cargo: 'Desenvolvedor Frontend N3', qtd: 1 },
         { cargo: 'Analista de Testes N2', qtd: 1 }
       ]
-    },
-    x: {
-      ini: 'Janeiro', fim: 'Dezembro',
-      linhas: [
-        { cargo: 'Líder Técnico N4', qtd: 1 },
-        { cargo: 'Arquiteto Federado', qtd: 1 },
-        { cargo: 'Desenvolvedor Backend N3', qtd: 2 },
-        { cargo: 'Desenvolvedor Frontend N3', qtd: 1 },
-        { cargo: 'Analista de Testes N2', qtd: 2 }
-      ]
-    },
-    y: {
-      ini: 'Janeiro', fim: 'Dezembro',
-      linhas: [
-        { cargo: 'Líder Técnico N4', qtd: 1 },
-        { cargo: 'Desenvolvedor Full Stack N3', qtd: 2 },
-        { cargo: 'Analista de Testes - Automação Funcional N2', qtd: 1 }
-      ]
-    },
-    z: {
-      ini: 'Janeiro', fim: 'Dezembro',
-      linhas: [
-        { cargo: 'Desenvolvedor Full Stack N3', qtd: 2 }
-      ]
     }
   };
+  // Modelos X, Y e Z vêm de data/modelos.csv (mesma fonte do prompt do n8n).
+  (D.modelos || []).forEach(function (m) {
+    EXEMPLOS[m.id.toLowerCase()] = {
+      ini: 'Janeiro', fim: 'Dezembro',
+      linhas: m.squad.map(function (s) { return { cargo: s.cargo, qtd: s.quantidade }; })
+    };
+  });
 
   var elIni = document.getElementById('mes-ini');
   var elFim = document.getElementById('mes-fim');

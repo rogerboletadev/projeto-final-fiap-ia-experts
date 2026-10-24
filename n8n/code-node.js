@@ -105,7 +105,63 @@ const SQUAD_DATA = {
     "Outubro": 184,
     "Novembro": 152,
     "Dezembro": 168
-  }
+  },
+  "modelos": [
+    {
+      "id": "X",
+      "nome": "Estrutura atual",
+      "squad": [
+        {
+          "cargo": "Líder Técnico N4",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Arquiteto Federado",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Desenvolvedor Backend N3",
+          "quantidade": 2
+        },
+        {
+          "cargo": "Desenvolvedor Frontend N3",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Analista de Testes N2",
+          "quantidade": 2
+        }
+      ]
+    },
+    {
+      "id": "Y",
+      "nome": "Power squad",
+      "squad": [
+        {
+          "cargo": "Líder Técnico N4",
+          "quantidade": 1
+        },
+        {
+          "cargo": "Desenvolvedor Full Stack N3",
+          "quantidade": 2
+        },
+        {
+          "cargo": "Analista de Testes - Automação Funcional N2",
+          "quantidade": 1
+        }
+      ]
+    },
+    {
+      "id": "Z",
+      "nome": "Super Power Squad",
+      "squad": [
+        {
+          "cargo": "Desenvolvedor Full Stack N3",
+          "quantidade": 2
+        }
+      ]
+    }
+  ]
 };
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -272,4 +328,10 @@ try {
 }
 
 const resultado = simular(SQUAD_DATA, pedido);
-return [{ json: { output: formatarMarkdown(resultado), resultado } }];
+let output = formatarMarkdown(resultado);
+if (resultado.ok && pedido.modelo) output = '**Modelo ' + pedido.modelo + '**\n\n' + output;
+const fora = Array.isArray(pedido.fora_da_conta) ? pedido.fora_da_conta : [];
+if (fora.length) {
+  output += '\n\n_Fora da conta: ' + fora.join(', ') + '. Normalmente não são recursos do coordenador de TI._';
+}
+return [{ json: { output, resultado } }];

@@ -106,4 +106,28 @@ teste('Markdown de erro pede reformulação', () => {
   assert.ok(md.includes('Pode reformular'));
 });
 
+teste('Modelos X, Y e Z carregados e com custo decrescente', () => {
+  assert.deepStrictEqual(data.modelos.map(m => m.id), ['X', 'Y', 'Z']);
+  const custo = id => {
+    const m = data.modelos.find(x => x.id === id);
+    const r = simular(data, { mes_inicio: 'Janeiro', mes_fim: 'Dezembro', squad_request: m.squad });
+    return r.resultados.find(x => x.consultoria === r.mais_barata).total;
+  };
+  assert.ok(perto(custo('Z'), 999000));
+  assert.ok(custo('X') > custo('Y') && custo('Y') > custo('Z'));
+});
+
+teste('Code node do n8n: modelo no título e PM fora da conta', () => {
+  const fs = require('fs');
+  const path = require('path');
+  const src = fs.readFileSync(path.join(__dirname, '..', 'n8n', 'code-node.js'), 'utf8');
+  const pedido = { mes_inicio: 'Janeiro', mes_fim: 'Dezembro', modelo: 'Z',
+    squad_request: [{ cargo: 'Desenvolvedor Full Stack N3', quantidade: 2 }], fora_da_conta: ['PM'] };
+  // formato de resposta do nó da Anthropic (Claude)
+  const $input = { first: () => ({ json: { content: [{ type: 'text', text: JSON.stringify(pedido) }] } }) };
+  const out = new Function('$input', src)($input)[0].json.output;
+  assert.ok(out.startsWith('**Modelo Z**'));
+  assert.ok(out.includes('Fora da conta: PM'));
+});
+
 console.log('\n' + ok + ' testes passaram.');

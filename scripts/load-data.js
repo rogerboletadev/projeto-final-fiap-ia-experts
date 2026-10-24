@@ -20,14 +20,26 @@ function loadData() {
   const horas = {};
   lerCsv('horas_uteis.csv').forEach(r => { horas[r.mes] = Number(r.horas); });
 
+  // Modelos de squad (X, Y, Z): cada linha é um cargo do modelo.
+  const modelos = [];
+  lerCsv('modelos.csv').forEach(r => {
+    let m = modelos.find(x => x.id === r.modelo);
+    if (!m) { m = { id: r.modelo, nome: r.nome, squad: [] }; modelos.push(m); }
+    m.squad.push({ cargo: r.cargo, quantidade: Number(r.quantidade) });
+  });
+
   // Validações simples para não subir base quebrada.
   const erros = [];
   cargos.forEach(c => { if (!(c.base > 0)) erros.push('Valor base inválido: ' + c.cargo); });
   consultorias.forEach(c => { if (!(c.fator > 0)) erros.push('Fator inválido: ' + c.nome); });
   if (Object.keys(horas).length !== 12) erros.push('horas_uteis.csv deve ter 12 meses.');
+  modelos.forEach(m => m.squad.forEach(s => {
+    if (!cargos.some(c => c.cargo === s.cargo)) erros.push('Modelo ' + m.id + ' usa cargo fora do catálogo: ' + s.cargo);
+    if (!(s.quantidade > 0)) erros.push('Quantidade inválida no modelo ' + m.id + ': ' + s.cargo);
+  }));
   if (erros.length) throw new Error('Base de dados inválida:\n- ' + erros.join('\n- '));
 
-  return { cargos, consultorias, horas };
+  return { cargos, consultorias, horas, modelos };
 }
 
 module.exports = { loadData };

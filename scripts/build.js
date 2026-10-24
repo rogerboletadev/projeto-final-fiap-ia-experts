@@ -44,7 +44,13 @@ try {
 }
 
 const resultado = simular(SQUAD_DATA, pedido);
-return [{ json: { output: formatarMarkdown(resultado), resultado } }];
+let output = formatarMarkdown(resultado);
+if (resultado.ok && pedido.modelo) output = '**Modelo ' + pedido.modelo + '**\\n\\n' + output;
+const fora = Array.isArray(pedido.fora_da_conta) ? pedido.fora_da_conta : [];
+if (fora.length) {
+  output += '\\n\\n_Fora da conta: ' + fora.join(', ') + '. Normalmente não são recursos do coordenador de TI._';
+}
+return [{ json: { output, resultado } }];
 `;
 const codeNode = '// Gerado por scripts/build.js. Cole inteiro no Code node (JavaScript, Run Once for All Items).\n' +
   dadosJs + '\n' + core + '\n' + glue;
@@ -52,15 +58,19 @@ fs.writeFileSync(path.join(raiz, 'n8n', 'code-node.js'), codeNode);
 
 // 3) Prompt de extração com o catálogo atual
 const lista = data.cargos.map(c => '- ' + c.cargo).join('\n');
+const listaModelos = data.modelos.map(m =>
+  '- Modelo ' + m.id + ' (' + m.nome + '): ' + m.squad.map(s => s.quantidade + 'x ' + s.cargo).join(', ')).join('\n');
 const promptTexto = `Você extrai dados de pedidos de montagem de squad. Responda SOMENTE com JSON puro, sem texto antes ou depois e sem blocos de código.
 
 Formato:
 {
   "mes_inicio": "Janeiro",
   "mes_fim": "Junho",
+  "modelo": null,
   "squad_request": [
     {"cargo": "Desenvolvedor Backend N3", "quantidade": 2}
-  ]
+  ],
+  "fora_da_conta": []
 }
 
 Regras:
@@ -70,6 +80,12 @@ Regras:
 4. "quantidade" é um número inteiro. Se não for dito, use 1.
 5. Meses em português, com a primeira letra maiúscula.
 6. Se o período não for informado, use "mes_inicio": "Janeiro" e "mes_fim": "Dezembro".
+7. Apelidos de cargo: "Tech Lead" é Líder Técnico (N4 se o nível não for dito); "Arquiteto" é Arquiteto Federado; "QA" ou "QA funcional" é Analista de Testes (N2 se o nível não for dito); "QA de automação" é Analista de Testes - Automação Funcional; "engenheiro de software" é Desenvolvedor Full Stack (N3 se o nível não for dito).
+8. Se o usuário pedir um modelo pelo nome ("estrutura atual", "power squad", "super power squad", "modelo X", "modelo Y" ou "modelo Z"), preencha "modelo" com a letra e "squad_request" com a composição do modelo abaixo. Se ele mudar alguma quantidade, aplique a mudança. Sem modelo, deixe "modelo": null.
+9. PM, IT Lead e coordenador não entram na conta. Não coloque esses papéis em "squad_request"; liste os que o usuário citar em "fora_da_conta".
+
+Modelos de squad:
+${listaModelos}
 
 Catálogo de cargos:
 ${lista}`;

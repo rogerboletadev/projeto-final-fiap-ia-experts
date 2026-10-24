@@ -485,3 +485,11 @@ legend { font-size: 1rem; }
 .ressalva-corpo strong { color: var(--ink); }
 .ressalva-corpo ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 .ressalva-aviso { border-left: 3px solid var(--cc); padding: 8px 12px; background: var(--track); border-radius: 0 8px 8px 0; }
+
+/* resposta formatada do chat */
+.bolha.formatada { white-space: normal; max-width: 100%; display: grid; gap: 8px; }
+.bolha.formatada p { margin: 0; }
+.chat-tabela { overflow-x: auto; }
+.chat-tabela table { min-width: 0; width: 100%; font-size: 0.88rem; background: var(--surface); border-radius: 8px; }
+.chat-tabela th, .chat-tabela td { text-align: left; padding: 6px 10px; }
+.chat-tabela .num { text-align: right; }
