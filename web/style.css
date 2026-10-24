@@ -457,8 +457,8 @@ legend { font-size: 1rem; }
 .tabela-modelos td.eng { color: var(--good); font-weight: 600; }
 @media (max-width: 575.98px) {
   .tabela-modelos td:nth-child(2)::before { content: "Hoje: "; color: var(--muted); font-weight: 400; }
-  .tabela-modelos td:nth-child(3)::before { content: "Transição: "; color: var(--muted); font-weight: 400; }
-  .tabela-modelos td:nth-child(4)::before { content: "Futuro: "; color: var(--muted); font-weight: 400; }
+  .tabela-modelos td:nth-child(3)::before { content: "Power squad: "; color: var(--muted); font-weight: 400; }
+  .tabela-modelos td:nth-child(4)::before { content: "Super power: "; color: var(--muted); font-weight: 400; }
   .tabela-modelos td[colspan]::before { content: none; }
 }
 .ideal { display: grid; gap: 10px; border: 2px solid var(--good); }

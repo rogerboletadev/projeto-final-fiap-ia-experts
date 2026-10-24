@@ -116,7 +116,7 @@
     render();
   }
 
-  // Compara o squad tradicional com o power squad na consultoria mais barata de cada um.
+  // Calcula o custo dos modelos X, Y e Z na consultoria mais barata de cada um.
   function compararFormatos() {
     var alvo = document.getElementById('formatos');
     if (!alvo) return;
