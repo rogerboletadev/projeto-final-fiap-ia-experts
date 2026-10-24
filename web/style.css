@@ -298,3 +298,29 @@ textarea, .config input {
 .status.erro { color: var(--cd); }
 section.nota { display: grid; gap: 8px; max-width: none; }
 code { font-size: 0.9em; }
+
+/* fundadores */
+.fundadores { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.fundador { display: grid; justify-items: start; gap: 4px; }
+.fundador h2 { font-size: 1.25rem; margin-top: 8px; }
+.fundador p { color: var(--muted); }
+.avatar {
+  display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  background: var(--accent); color: var(--accent-ink); font-family: var(--display); font-weight: 700; font-size: 1.1rem;
+}
+
+/* pitch */
+.tempo-barra { display: flex; gap: 3px; font-size: 0.72rem; color: var(--muted); }
+.tempo-barra span { border-top: 6px solid var(--accent); padding-top: 4px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tempo-barra span:nth-child(3) { border-top-color: var(--good); }
+.pitch { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.bloco { display: grid; gap: 8px; }
+.bloco h2 { font-size: 1.3rem; }
+.bloco.destaque { border-color: var(--good); border-width: 2px; }
+.bloco-topo { display: flex; justify-content: space-between; gap: 12px; font-size: 0.85rem; }
+.tempo { font-weight: 600; color: var(--accent); }
+.quem { color: var(--muted); }
+.fala { color: var(--muted); font-style: italic; }
+.dicas { display: grid; gap: 10px; }
+.dicas h2 { font-size: 1.3rem; }
+.dicas ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
