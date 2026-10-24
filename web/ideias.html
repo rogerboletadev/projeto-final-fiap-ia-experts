@@ -68,6 +68,31 @@
       </table>
       <p class="fala">Vale guardar para depois: a tabela de valor/hora por mês permite modelar reajuste no meio do ano, o que a regra base × fator não cobre.</p>
     </section>
+
+    <section class="painel ideia">
+      <div class="bloco-topo"><span class="tempo">Próximo MVP</span><span class="quem">Rogerio Cardoso</span></div>
+      <h2>Valores reais vindos do Connecti</h2>
+      <p>Os valores/hora das consultorias já estão cadastrados no <strong>Connecti</strong>. Em vez de manter CSVs à mão, o Copilot buscaria os valores direto de lá, e o coordenador compararia com dados reais.</p>
+      <table class="tabela-ideias">
+        <thead><tr><th>Ponto</th><th>Situação</th></tr></thead>
+        <tbody>
+          <tr><td>Motor de cálculo independe da origem dos dados</td><td><span class="selo feito">Pronto</span> só a fonte muda, o cálculo continua igual</td></tr>
+          <tr><td>Fluxo no n8n: Schedule + HTTP Request atualizando a base</td><td><span class="selo depois">Proposta</span> o chat continua do mesmo jeito</td></tr>
+          <tr><td>Catálogo de cargos vindo do Connecti</td><td><span class="selo depois">Proposta</span> resolve os cargos que faltam hoje</td></tr>
+          <tr><td>O Connecti tem API ou exportação?</td><td><span class="selo pendente">A descobrir</span> define se a integração é direta</td></tr>
+          <tr><td>Quem autoriza o uso dos valores e se podem passar por um LLM em nuvem</td><td><span class="selo pendente">A descobrir</span> dado contratual sensível</td></tr>
+          <tr><td>O Connecti registra nível e reajuste por mês?</td><td><span class="selo pendente">A descobrir</span> se sim, a ideia de valor por mês volta</td></tr>
+        </tbody>
+      </table>
+      <p class="fala">O mais barato é o ponto de partida, não a resposta final: com dados reais, o passo seguinte é cruzar com o contrato e chegar ao melhor custo-benefício.</p>
+    </section>
+
+    <section class="painel ideia">
+      <div class="bloco-topo"><span class="tempo">Decisão do time</span><span class="quem">Todos</span></div>
+      <h2>Sem depender de um único modelo de IA</h2>
+      <p>O fluxo usa Gemini hoje, mas pode usar <strong>Claude</strong> (nó Anthropic do n8n) ou outro modelo. O modelo só entende o pedido e redige a resposta; a conta é sempre feita pelo código, então trocar de modelo não muda nenhum valor.</p>
+      <p>O nó Code já lê a resposta do Gemini e do Claude sem ajuste. Para escolher, vale comparar: acerto na extração dos cargos, custo por chamada e a política de dados de cada fornecedor.</p>
+    </section>
   </main>
 
   <footer class="rodape">

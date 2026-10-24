@@ -72,6 +72,7 @@ docker run -d --restart unless-stopped --name n8n \
         <li>
           <h3>Adicione o Gemini para extrair o pedido</h3>
           <p>Adicione o nó <strong>Google Gemini</strong> com a ação <strong>Message a model</strong> e escolha a credencial do passo 2. Escolha um modelo Gemini da lista disponível na sua conta.</p>
+          <p class="nota">Prefere Claude? Use o nó <strong>Anthropic</strong> com a mesma System Message e uma credencial da Anthropic. O nó Code lê a resposta dos dois sem ajuste.</p>
           <p>Na mensagem do usuário, use:</p>
           <div class="codigo">
             <button type="button" class="copiar" data-alvo="cod-chat">Copiar</button>
@@ -134,7 +135,7 @@ docker run -d --restart unless-stopped --name n8n \
         <dd>O Gemini não devolveu JSON puro. Abra a saída do nó Gemini e veja o que veio. Se vier texto solto, reforce no prompt a regra de responder somente JSON ou ative a saída em JSON do nó.</dd>
 
         <dt>O Code dá erro ao ler a resposta do Gemini</dt>
-        <dd>Dependendo da versão, o texto vem em outro campo. Veja em que campo ele está na saída do nó Gemini e ajuste o bloco "Entrada", no fim do código. Ele já tenta <code>text</code>, <code>output</code> e <code>content.parts[0].text</code>.</dd>
+        <dd>Dependendo da versão, o texto vem em outro campo. Veja em que campo ele está na saída do nó Gemini e ajuste o bloco "Entrada", no fim do código. Ele já tenta <code>text</code>, <code>output</code>, <code>content.parts[0].text</code> (Gemini) e <code>content[0].text</code> (Claude).</dd>
 
         <dt>Erro de modelo não encontrado</dt>
         <dd>Troque o modelo na lista do nó Gemini por um que sua conta tenha disponível.</dd>

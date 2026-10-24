@@ -250,11 +250,12 @@ function formatarMarkdown(res) {
   return out.join('\n');
 }
 
-// ---------- Entrada: JSON gerado pelo Gemini no nó anterior ----------
+// ---------- Entrada: JSON gerado pelo modelo (Gemini, Claude ou outro) no nó anterior ----------
 const bruto = $input.first().json;
 let texto = bruto.text
   || bruto.output
   || (bruto.content && bruto.content.parts && bruto.content.parts[0] && bruto.content.parts[0].text)
+  || (Array.isArray(bruto.content) && bruto.content[0] && bruto.content[0].text)
   || (bruto.message && bruto.message.content)
   || '';
 texto = String(texto).replace(/```json/gi, '').replace(/```/g, '').trim();
