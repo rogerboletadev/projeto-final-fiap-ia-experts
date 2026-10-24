@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ideias do time</title>
+  <meta name="description" content="Das primeiras ideias do time ao MVP: o que entrou, o que mudou e o que ficou para as próximas versões.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231F4FFF'/%3E%3Crect x='6' y='8' width='20' height='4' rx='2' fill='white'/%3E%3Crect x='6' y='14' width='14' height='4' rx='2' fill='white' opacity='.8'/%3E%3Crect x='6' y='20' width='9' height='4' rx='2' fill='white' opacity='.6'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="wrap topo-inner">
+      <a class="marca" href="index.html">Squad Cost Copilot</a>
+      <nav class="topo-nav" aria-label="Principal">
+        <a href="index.html">Simulador</a>
+        <a href="chat.html">Chat</a>
+        <a href="guia-n8n.html">Guia do n8n</a>
+        <a href="pitch.html">Pitch</a>
+        <a href="ideias.html" aria-current="page">Ideias do time</a>
+        <a href="equipe.html">Fundadores</a>
+        <a href="config.html">Configuração</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap pagina">
+    <h1>Do rascunho ao MVP</h1>
+    <p class="lead">O MVP saiu das primeiras ideias do time. Aqui está o que cada contribuição trouxe, o que entrou como estava, o que foi ajustado e por quê.</p>
+
+    <section class="painel ideia">
+      <div class="bloco-topo"><span class="tempo">Visão do produto</span><span class="quem">Lorena Emmerick</span></div>
+      <h2>Do Excel ao agente: o mapa AS IS → TO BE</h2>
+      <p>O desenho no quadro definiu para quem e para quê: a área de <strong>Financeiro / Alocação</strong> hoje compara rates de cargo por consultoria em Excel. O objetivo é chegar ao <strong>melhor custo-benefício do squad</strong>.</p>
+      <table class="tabela-ideias">
+        <thead><tr><th>Ideia</th><th>Situação</th></tr></thead>
+        <tbody>
+          <tr><td>Base de dados de rates por cargo e consultoria</td><td><span class="selo feito">No MVP</span> CSVs limpos, fonte única da verdade</td></tr>
+          <tr><td>Cálculo pelo valor/hora, mês a mês</td><td><span class="selo feito">No MVP</span> horas úteis do mês × valor/hora × quantidade</td></tr>
+          <tr><td>Período anual</td><td><span class="selo feito">No MVP</span> padrão de janeiro a dezembro quando o pedido não diz o período</td></tr>
+          <tr><td>Time de exemplo: 1 Full Stack, 2 Dev Sr, 1 Front Sr, 1 QA</td><td><span class="selo feito">No MVP</span> é o exemplo “Squad de 5 pessoas” do simulador</td></tr>
+          <tr><td>n8n + Agente de IA</td><td><span class="selo feito">No MVP</span> fluxo Chat → Gemini → código</td></tr>
+          <tr><td>Time com IT Lead, Tech Lead / SE Sr e SE</td><td><span class="selo pendente">Falta dado</span> esses cargos ainda não existem no catálogo</td></tr>
+          <tr><td>RAG</td><td><span class="selo depois">v2</span> perguntas sobre os contratos</td></tr>
+          <tr><td>Agente de projeção</td><td><span class="selo depois">v3</span> previsto × realizado por squad</td></tr>
+          <tr><td>MCP</td><td><span class="selo depois">Depois</span> expor o cálculo como ferramentas</td></tr>
+          <tr><td>Melhor custo-benefício</td><td><span class="selo depois">Depois</span> critérios além do preço</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="painel ideia">
+      <div class="bloco-topo"><span class="tempo">Arquitetura do fluxo</span><span class="quem">Vitor Vilaronga</span></div>
+      <h2>O fluxo no n8n em quatro nós</h2>
+      <p>A proposta montou o esqueleto que o MVP usa até hoje: <strong>Chat Trigger → Gemini (extração) → Code (cálculo) → Gemini (resposta)</strong>, com o formato de JSON <code>mes_inicio</code>, <code>mes_fim</code> e <code>squad_request</code>, os meses em português e o padrão de ano inteiro. Também veio dela a limpeza dos blocos <code>```json</code> que o modelo às vezes devolve.</p>
+      <table class="tabela-ideias">
+        <thead><tr><th>Na proposta</th><th>No MVP</th><th>Por quê</th></tr></thead>
+        <tbody>
+          <tr><td>Code em Python com pandas</td><td>Code em JavaScript</td><td>O nó Code do n8n não tem pandas disponível em todas as instalações, e JavaScript é o padrão do nó.</td></tr>
+          <tr><td>Lê <code>Consultorias.csv</code> e <code>Cargos e Valores.csv</code> do disco</td><td>Dados embutidos no código, gerados dos CSVs por <code>scripts/build.js</code></td><td>O nó Code não acessa arquivos. Os CSVs continuam sendo a fonte; o build só copia.</td></tr>
+          <tr><td>Valor/hora por cargo, consultoria e mês</td><td>Valor base do cargo × fator da consultoria</td><td>Na planilha, os valores seguiam essa regra. Ela mostrou a única linha fora do padrão (Backend N1 na Consultoria B).</td></tr>
+          <tr><td>Cargo precisa bater exatamente</td><td>Catálogo no prompt + pergunta de volta</td><td>Se o nome não bate, o cargo era ignorado em silêncio e o total saía menor.</td></tr>
+          <tr><td>Gemini monta as tabelas finais</td><td>O código monta as tabelas; o 2º Gemini é opcional e só comenta</td><td>Modelo de linguagem pode reescrever um número. Os valores precisam sair do código.</td></tr>
+        </tbody>
+      </table>
+      <p class="fala">Vale guardar para depois: a tabela de valor/hora por mês permite modelar reajuste no meio do ano, o que a regra base × fator não cobre.</p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <p>Projeto de estudo do curso FIAP Experts. Consultorias e valores fictícios.</p>
+    </div>
+  </footer>
+</body>
+</html>

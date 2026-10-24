@@ -324,3 +324,14 @@ code { font-size: 0.9em; }
 .dicas { display: grid; gap: 10px; }
 .dicas h2 { font-size: 1.3rem; }
 .dicas ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+
+/* ideias do time */
+.ideia { display: grid; gap: 12px; }
+.ideia h2 { font-size: 1.3rem; }
+.tabela-ideias { width: 100%; border-collapse: collapse; font-size: 0.92rem; display: block; overflow-x: auto; }
+.tabela-ideias th, .tabela-ideias td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.tabela-ideias th { color: var(--muted); font-weight: 600; }
+.selo { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; margin-right: 4px; white-space: nowrap; }
+.selo.feito { background: color-mix(in srgb, var(--good) 18%, transparent); color: var(--good); }
+.selo.pendente { background: color-mix(in srgb, var(--cc) 18%, transparent); color: var(--cc); }
+.selo.depois { background: var(--track); color: var(--muted); }
