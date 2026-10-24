@@ -447,3 +447,24 @@ legend { font-size: 1rem; }
   .de-para-lista li { grid-template-columns: 1fr; gap: 2px; }
   .seta { display: none; }
 }
+
+/* modelos X, Y, Z */
+.formato-pessoas { font-weight: 600; color: var(--ink) !important; }
+.formato-dif { font-size: 0.9rem; font-weight: 600; color: var(--good) !important; margin-bottom: 12px; }
+.formato-ref { color: var(--muted) !important; }
+.formato .formato-legenda { margin-bottom: 0; }
+.tabela-modelos td.fora { color: var(--muted); }
+.tabela-modelos td.eng { color: var(--good); font-weight: 600; }
+@media (max-width: 575.98px) {
+  .tabela-modelos td:nth-child(2)::before { content: "Hoje: "; color: var(--muted); font-weight: 400; }
+  .tabela-modelos td:nth-child(3)::before { content: "Transição: "; color: var(--muted); font-weight: 400; }
+  .tabela-modelos td:nth-child(4)::before { content: "Futuro: "; color: var(--muted); font-weight: 400; }
+  .tabela-modelos td[colspan]::before { content: none; }
+}
+.ideal { display: grid; gap: 10px; border: 2px solid var(--good); }
+.ideal h3 { font-size: 1.2rem; }
+.ideal > p { color: var(--muted); max-width: 70ch; }
+.complexidade { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.complexidade li { background: var(--track); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 2px; }
+.complexidade strong { font-family: var(--display); font-size: 1.05rem; }
+.complexidade span { color: var(--muted); font-size: 0.92rem; }

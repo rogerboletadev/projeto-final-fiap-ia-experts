@@ -56,7 +56,9 @@
             <span class="rotulo">Começar por um exemplo</span>
             <button type="button" class="chip" data-exemplo="pedido">2 Backend N3 e 1 Full Stack N3</button>
             <button type="button" class="chip" data-exemplo="squad">Squad de 5 pessoas</button>
-            <button type="button" class="chip" data-exemplo="power">Power squad: 2 engenheiros</button>
+            <button type="button" class="chip" data-exemplo="x">Modelo X: hoje</button>
+            <button type="button" class="chip" data-exemplo="y">Modelo Y: transição</button>
+            <button type="button" class="chip" data-exemplo="z">Modelo Z: power squad</button>
           </div>
 
           <fieldset class="periodo">
@@ -82,46 +84,75 @@
 
     <section class="formatos wrap" id="formatos" aria-labelledby="t-formatos">
       <span class="sobretitulo">O time está mudando</span>
-      <h2 id="t-formatos">Squads menores, apoiados por IA</h2>
-      <p class="lead">O mercado está migrando para o <strong>power squad</strong>: poucos engenheiros de software, com IA no dia a dia, tocando projetos que antes pediam um time inteiro. A quantidade de engenheiros acompanha a complexidade de cada projeto.</p>
-
-      <div class="painel de-para mt-3">
-        <h3>Da estrutura atual ao power squad</h3>
-        <p class="de-para-intro">Hoje a estrutura que alimenta os épicos no Jira tem cinco papéis. No power squad, os papéis técnicos viram engenheiros de software, e a conta do coordenador passa a ser só deles.</p>
-        <ul class="de-para-lista">
-          <li><span class="papel">PM</span><span class="seta" aria-hidden="true">→</span><span class="destino fora">Fora da conta: recurso de outra área</span></li>
-          <li><span class="papel">IT Lead</span><span class="seta" aria-hidden="true">→</span><span class="destino fora">É o coordenador, quem usa o Copilot</span></li>
-          <li><span class="papel">QA</span><span class="seta" aria-hidden="true">→</span><span class="destino eng">Engenheiro de software (testes automatizados com IA)</span></li>
-          <li><span class="papel">Tech Lead</span><span class="seta" aria-hidden="true">→</span><span class="destino eng">Engenheiro de software</span></li>
-          <li><span class="papel">Arquiteto Federado</span><span class="seta" aria-hidden="true">→</span><span class="destino eng">Engenheiro de software</span></li>
-        </ul>
-        <p class="de-para-intro">Quantos engenheiros? Depende da complexidade de cada projeto. O exemplo abaixo usa dois.</p>
-      </div>
+      <h2 id="t-formatos">Três modelos de squad, do atual ao ideal</h2>
+      <p class="lead">O mercado está migrando para squads menores, apoiados por IA. Comparamos o modelo de hoje, um passo de transição e o <strong>power squad</strong>, que é para onde queremos ir.</p>
 
       <div class="row g-3 mt-2">
-        <div class="col-md-6">
+        <div class="col-lg-4">
           <div class="painel formato">
-            <span class="rotulo">Squad tradicional</span>
-            <h3>5 pessoas</h3>
-            <p>1 Full Stack, 2 Backend, 1 Frontend (todos N3) e 1 QA N2</p>
-            <p class="formato-custo" id="custo-squad">–</p>
+            <span class="rotulo">Modelo X · hoje</span>
+            <h3>Estrutura atual</h3>
+            <p class="formato-pessoas">7 pessoas</p>
+            <p>Tech Lead, Arquiteto Federado, 2 Backend N3, 1 Frontend N3 e 2 QA funcionais</p>
+            <p class="formato-custo" id="custo-x">–</p>
             <p class="formato-legenda">por ano, na consultoria mais barata</p>
-            <button type="button" class="btn btn-outline-primary btn-sm" data-exemplo="squad" data-rolar>Simular este time</button>
+            <p class="formato-dif formato-ref">Referência</p>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-exemplo="x" data-rolar>Simular este modelo</button>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="painel formato formato-destaque">
-            <span class="rotulo">Power squad</span>
-            <h3>2 engenheiros + IA</h3>
-            <p>2 Desenvolvedores Full Stack N3</p>
-            <p class="formato-custo" id="custo-power">–</p>
+        <div class="col-lg-4">
+          <div class="painel formato">
+            <span class="rotulo">Modelo Y · transição</span>
+            <h3>Automação e Full Stack</h3>
+            <p class="formato-pessoas">4 pessoas</p>
+            <p>Tech Lead acumulando a arquitetura, 2 Full Stack N3 e 1 QA de automação</p>
+            <p class="formato-custo" id="custo-y">–</p>
             <p class="formato-legenda">por ano, na consultoria mais barata</p>
-            <button type="button" class="btn btn-primary btn-sm" data-exemplo="power" data-rolar>Simular este time</button>
+            <p class="formato-dif" id="dif-y">–</p>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-exemplo="y" data-rolar>Simular este modelo</button>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="painel formato formato-destaque">
+            <span class="rotulo">Modelo Z · futuro</span>
+            <h3>Power squad</h3>
+            <p class="formato-pessoas">2 engenheiros + IA</p>
+            <p>2 engenheiros de software Full Stack N3, com testes e arquitetura apoiados por IA</p>
+            <p class="formato-custo" id="custo-z">–</p>
+            <p class="formato-legenda">por ano, na consultoria mais barata</p>
+            <p class="formato-dif" id="dif-z">–</p>
+            <button type="button" class="btn btn-primary btn-sm" data-exemplo="z" data-rolar>Simular este modelo</button>
           </div>
         </div>
       </div>
-      <p class="economia">Diferença no ano: <strong id="economia">–</strong></p>
-      <p class="nota">O PM do power squad não entra na conta: normalmente ele não é recurso do coordenador de TI, e sim de outra área. O simulador compara só o custo com engenheiros das consultorias.</p>
+
+      <div class="painel de-para mt-3">
+        <h3>O que muda em cada papel</h3>
+        <table class="tabela-ideias tabela-modelos">
+          <thead><tr><th>Papel</th><th>Modelo X · hoje</th><th>Modelo Y · transição</th><th>Modelo Z · futuro</th></tr></thead>
+          <tbody>
+            <tr><td>PM</td><td colspan="3" class="fora">Fora da conta em todos os modelos: recurso de outra área</td></tr>
+            <tr><td>IT Lead</td><td colspan="3" class="fora">Fora da conta: é o próprio coordenador, quem usa o Copilot</td></tr>
+            <tr><td>QA</td><td>2 QA funcionais (testes manuais e Cypress)</td><td>1 QA de automação</td><td class="eng">Testes escritos pelos engenheiros, com IA</td></tr>
+            <tr><td>Tech Lead</td><td>Tech Lead dedicado</td><td>Tech Lead acumula a arquitetura</td><td class="eng">Engenheiro de software</td></tr>
+            <tr><td>Arquiteto Federado</td><td>Arquiteto dedicado</td><td>Absorvido pelo Tech Lead</td><td class="eng">Engenheiro de software</td></tr>
+            <tr><td>Desenvolvimento</td><td>2 Backend + 1 Frontend</td><td>2 Full Stack</td><td class="eng">2 engenheiros Full Stack com IA</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="painel ideal mt-3">
+        <h3>O ideal do futuro</h3>
+        <p>Um power squad só de engenheiros de software, com a IA no dia a dia: escrevendo testes, revisando código e apoiando decisões de arquitetura. O tamanho do time acompanha a complexidade do projeto:</p>
+        <ul class="complexidade">
+          <li><strong>Baixa</strong><span>1 a 2 engenheiros</span></li>
+          <li><strong>Média</strong><span>2 a 3 engenheiros</span></li>
+          <li><strong>Alta</strong><span>3 a 4 engenheiros</span></li>
+        </ul>
+        <p class="formato-legenda">Faixas propostas pelo time, ainda a validar com projetos reais.</p>
+      </div>
+
+      <p class="nota">PM e IT Lead não entram na conta: normalmente não são recursos do coordenador de TI. O valor do Arquiteto Federado é fictício, como todos os valores deste MVP.</p>
     </section>
 
     <section class="como wrap" id="como" aria-labelledby="t-como">

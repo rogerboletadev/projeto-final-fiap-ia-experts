@@ -34,6 +34,7 @@ Catálogo de cargos:
 - Desenvolvedor Full Stack N3
 - Líder Técnico N3
 - Líder Técnico N4
+- Arquiteto Federado
 - Analista de Testes N1
 - Analista de Testes N2
 - Analista de Testes N3

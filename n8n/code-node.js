@@ -46,6 +46,10 @@ const SQUAD_DATA = {
       "base": 300
     },
     {
+      "cargo": "Arquiteto Federado",
+      "base": 320
+    },
+    {
       "cargo": "Analista de Testes N1",
       "base": 100
     },

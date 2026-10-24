@@ -24,7 +24,25 @@
         { cargo: 'Analista de Testes N2', qtd: 1 }
       ]
     },
-    power: {
+    x: {
+      ini: 'Janeiro', fim: 'Dezembro',
+      linhas: [
+        { cargo: 'Líder Técnico N4', qtd: 1 },
+        { cargo: 'Arquiteto Federado', qtd: 1 },
+        { cargo: 'Desenvolvedor Backend N3', qtd: 2 },
+        { cargo: 'Desenvolvedor Frontend N3', qtd: 1 },
+        { cargo: 'Analista de Testes N2', qtd: 2 }
+      ]
+    },
+    y: {
+      ini: 'Janeiro', fim: 'Dezembro',
+      linhas: [
+        { cargo: 'Líder Técnico N4', qtd: 1 },
+        { cargo: 'Desenvolvedor Full Stack N3', qtd: 2 },
+        { cargo: 'Analista de Testes - Automação Funcional N2', qtd: 1 }
+      ]
+    },
+    z: {
       ini: 'Janeiro', fim: 'Dezembro',
       linhas: [
         { cargo: 'Desenvolvedor Full Stack N3', qtd: 2 }
@@ -111,12 +129,15 @@
       var melhor = r.resultados.filter(function (x) { return x.consultoria === r.mais_barata; })[0];
       return { total: melhor.total, consultoria: r.mais_barata };
     }
-    var trad = custo('squad');
-    var power = custo('power');
-    document.getElementById('custo-squad').textContent = brl(trad.total);
-    document.getElementById('custo-power').textContent = brl(power.total);
-    document.getElementById('economia').textContent = brl(trad.total - power.total) + ' (' +
-      pct(Math.round((1 - power.total / trad.total) * 1000) / 10) + '%)';
+    var base = custo('x');
+    ['x', 'y', 'z'].forEach(function (k) {
+      var c = custo(k);
+      document.getElementById('custo-' + k).textContent = brl(c.total);
+      if (k !== 'x') {
+        document.getElementById('dif-' + k).textContent = '−' + brl(base.total - c.total) + ' (−' +
+          pct(Math.round((1 - c.total / base.total) * 1000) / 10) + '%) em relação ao modelo X';
+      }
+    });
   }
 
   function pct(n) { return String(n).replace('.', ','); }
