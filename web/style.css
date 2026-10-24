@@ -15,25 +15,24 @@
   --r: 10px;
   --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --display: "Bricolage Grotesque", var(--body);
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0c1220;
-    --surface: #131b2e;
-    --ink: #e8ecf4;
-    --muted: #9aa6bc;
-    --line: #25304a;
-    --accent: #6d8bff;
-    --accent-ink: #0c1220;
-    --good: #4fd1a1;
-    --track: #1b2640;
-    --ca: #6d8bff;
-    --cb: #35c3d0;
-    --cc: #e0a03c;
-    --cd: #e0628f;
-  }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0c1220;
+  --surface: #131b2e;
+  --ink: #e8ecf4;
+  --muted: #9aa6bc;
+  --line: #25304a;
+  --accent: #6d8bff;
+  --accent-ink: #0c1220;
+  --good: #4fd1a1;
+  --track: #1b2640;
+  --ca: #6d8bff;
+  --cb: #35c3d0;
+  --cc: #e0a03c;
+  --cd: #e0628f;
 }
 
 * { box-sizing: border-box; }
@@ -329,10 +328,8 @@ code { font-size: 0.9em; }
   --bs-emphasis-color: var(--ink);
   --sombra: 0 1px 2px rgb(16 24 40 / 0.05), 0 4px 12px rgb(16 24 40 / 0.04);
 }
-@media (prefers-color-scheme: dark) {
-  :root { --sombra: none; }
-  .navbar-toggler-icon { filter: invert(1); }
-}
+:root[data-theme="dark"] { --sombra: none; }
+:root[data-theme="dark"] .navbar-toggler-icon { filter: invert(1); }
 body { display: flex; flex-direction: column; min-height: 100vh; }
 main { flex: 1 0 auto; }
 legend { font-size: 1rem; }
@@ -429,3 +426,8 @@ legend { font-size: 1rem; }
 .formato-destaque { border: 2px solid var(--good); }
 .economia { margin-top: 16px; font-size: 1.1rem; }
 .economia strong { color: var(--good); }
+
+/* botão de tema */
+.btn-tema { background: transparent; border: 1px solid var(--line); color: var(--ink); border-radius: 8px; min-height: 34px; min-width: 38px; padding: 4px 8px; line-height: 1; }
+.btn-tema:hover { background: var(--track); }
+@media (max-width: 991.98px) { .btn-tema { margin-top: 8px; width: 100%; } }

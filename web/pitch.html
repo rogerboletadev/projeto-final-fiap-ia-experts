@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
+  <script>try{if(localStorage.getItem('tema')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pitch em 5 minutos</title>
   <meta name="description" content="Roteiro do pitch de 5 minutos do Squad Cost Copilot: tempo, falas e quem apresenta cada parte.">
@@ -33,6 +34,7 @@
                 <li><a class="dropdown-item" href="equipe.html">Fundadores</a></li>
               </ul>
             </li>
+            <li class="nav-item ms-lg-2"><button type="button" class="btn-tema" id="btn-tema" aria-label="Alternar tema claro e escuro">🌙</button></li>
             <li class="nav-item ms-lg-2"><a class="btn btn-sm btn-outline-primary btn-config" href="config.html">Configuração</a></li>
           </ul>
         </div>
@@ -129,6 +131,7 @@
       <p class="rodape-nota">Projeto de estudo do curso FIAP Experts. Consultorias e valores fictícios.</p>
     </div>
   </footer>
+  <script>(function(){var b=document.getElementById('btn-tema'),r=document.documentElement;function sync(){var d=r.getAttribute('data-theme')==='dark';b.textContent=d?'☀️':'🌙';b.setAttribute('aria-pressed',d)}sync();b.addEventListener('click',function(){var d=r.getAttribute('data-theme')!=='dark';if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');try{localStorage.setItem('tema',d?'dark':'light')}catch(e){}sync()})})();</script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
