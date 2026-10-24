@@ -493,3 +493,10 @@ legend { font-size: 1rem; }
 .chat-tabela table { min-width: 0; width: 100%; font-size: 0.88rem; background: var(--surface); border-radius: 8px; }
 .chat-tabela th, .chat-tabela td { text-align: left; padding: 6px 10px; }
 .chat-tabela .num { text-align: right; }
+
+/* código aberto (fundadores) */
+.codigo-aberto { display: grid; gap: 16px; }
+.codigo-aberto h2 { font-size: 1.5rem; }
+.codigo-aberto p { color: var(--muted); max-width: 62ch; margin-top: 6px; }
+.codigo-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.codigo-aberto .codigo pre { white-space: pre-wrap; overflow-wrap: anywhere; }
