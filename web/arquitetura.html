@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <script>try{if(localStorage.getItem('tema')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arquitetura do Copilot</title>
+  <meta name="description" content="Arquitetura do Squad Cost Copilot: como funciona hoje, o caminho de uma pergunta no chat e as próximas etapas dos MVPs.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231F4FFF'/%3E%3Crect x='6' y='8' width='20' height='4' rx='2' fill='white'/%3E%3Crect x='6' y='14' width='14' height='4' rx='2' fill='white' opacity='.8'/%3E%3Crect x='6' y='20' width='9' height='4' rx='2' fill='white' opacity='.6'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Principal">
+      <div class="wrap">
+        <a class="navbar-brand marca" href="index.html"><span class="logo"><svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><rect x="6" y="8" width="20" height="4" rx="2" fill="#fff"/><rect x="6" y="14" width="14" height="4" rx="2" fill="#fff" opacity=".8"/><rect x="6" y="20" width="9" height="4" rx="2" fill="#fff" opacity=".6"/></svg></span>Squad Cost Copilot</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Simulador</a></li>
+            <li class="nav-item"><a class="nav-link" href="chat.html">Chat</a></li>
+            <li class="nav-item"><a class="nav-link" href="guia-n8n.html">Guia do n8n</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Projeto</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="pitch.html">Pitch</a></li>
+                <li><a class="dropdown-item" href="ideias.html">Ideias do time</a></li>
+                <li><a class="dropdown-item active" href="arquitetura.html" aria-current="page">Arquitetura</a></li>
+                <li><a class="dropdown-item" href="equipe.html">Fundadores</a></li>
+              </ul>
+            </li>
+            <li class="nav-item ms-lg-2"><button type="button" class="btn-tema" id="btn-tema" aria-label="Alternar tema claro e escuro">🌙</button></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-sm btn-outline-primary btn-config" href="config.html">Configuração</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="wrap pagina">
+    <h1>Arquitetura</h1>
+    <p class="lead">Como o Copilot funciona hoje e para onde ele vai. A regra que atravessa todas as etapas: a IA entende o pedido, o código faz a conta.</p>
+
+    <div class="arq-principios row g-3">
+      <div class="col-md-4"><div class="painel h-100"><h2>Fonte única</h2><p>Os CSVs em <code>data/</code> alimentam o site e o n8n. O build gera tudo a partir deles, então os dois nunca divergem.</p></div></div>
+      <div class="col-md-4"><div class="painel h-100"><h2>IA só interpreta</h2><p>Gemini ou Claude transformam o texto em JSON. Nenhum valor sai do modelo de linguagem.</p></div></div>
+      <div class="col-md-4"><div class="painel h-100"><h2>Testado</h2><p>15 testes automáticos cobrem o cálculo, os modelos X, Y e Z e o código que roda no n8n.</p></div></div>
+    </div>
+
+    <div id="diagramas" class="arq-diagramas"></div>
+
+    <section class="nota">
+      <p>Os diagramas desta página vêm do <a href="https://github.com/rogerboletadev/projeto-final-fiap-ia-experts#arquitetura" target="_blank" rel="noopener">README do projeto</a>. Quando a arquitetura mudar em um novo MVP, basta atualizar o README e rodar o build.</p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap rodape-grid">
+      <div>
+        <a class="marca" href="index.html"><span class="logo"><svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><rect x="6" y="8" width="20" height="4" rx="2" fill="#fff"/><rect x="6" y="14" width="14" height="4" rx="2" fill="#fff" opacity=".8"/><rect x="6" y="20" width="9" height="4" rx="2" fill="#fff" opacity=".6"/></svg></span>Squad Cost Copilot</a>
+        <p>A IA entende o pedido. O código faz a conta.</p>
+      </div>
+      <nav aria-label="Rodapé" class="rodape-links">
+        <a href="index.html">Simulador</a>
+        <a href="chat.html">Chat</a>
+        <a href="guia-n8n.html">Guia do n8n</a>
+        <a href="pitch.html">Pitch</a>
+        <a href="ideias.html">Ideias do time</a>
+        <a href="arquitetura.html">Arquitetura</a>
+        <a href="equipe.html">Fundadores</a>
+      </nav>
+      <p class="rodape-nota">Projeto de estudo do curso FIAP Experts. Consultorias e valores fictícios.</p>
+    </div>
+  </footer>
+  <script>(function(){var b=document.getElementById('btn-tema'),r=document.documentElement;function sync(){var d=r.getAttribute('data-theme')==='dark';b.textContent=d?'☀️':'🌙';b.setAttribute('aria-pressed',d)}sync();b.addEventListener('click',function(){var d=r.getAttribute('data-theme')!=='dark';if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');try{localStorage.setItem('tema',d?'dark':'light')}catch(e){}sync()})})();</script>
+  <script src="arquitetura-dados.js"></script>
+  <script type="module" src="arquitetura.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

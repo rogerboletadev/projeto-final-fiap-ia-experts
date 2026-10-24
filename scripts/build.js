@@ -110,4 +110,16 @@ fs.writeFileSync(
   'const N8N_CODE = ' + JSON.stringify(codeNode) + ';\n'
 );
 
-console.log('Build ok:', data.cargos.length, 'cargos,', data.consultorias.length, 'consultorias.');
+// 5) Diagramas da arquitetura: os blocos mermaid do README viram dados da página de arquitetura
+const readme = fs.readFileSync(path.join(raiz, 'README.md'), 'utf8');
+const diagramas = readme.split(/^#{2,3} /m).slice(1)
+  .map(secao => ({ titulo: secao.split('\n')[0].trim(), bloco: secao.match(/```mermaid\n([\s\S]*?)```/) }))
+  .filter(s => s.bloco)
+  .map(s => ({ titulo: s.titulo, codigo: s.bloco[1] }));
+fs.writeFileSync(
+  path.join(raiz, 'web', 'arquitetura-dados.js'),
+  '// Gerado por scripts/build.js a partir do README.md. Não edite à mão.\n' +
+  'const DIAGRAMAS = ' + JSON.stringify(diagramas, null, 2) + ';\n'
+);
+
+console.log('Build ok:', data.cargos.length, 'cargos,', data.consultorias.length, 'consultorias,', diagramas.length, 'diagramas.');

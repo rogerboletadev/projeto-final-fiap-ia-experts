@@ -65,6 +65,126 @@ custo      = horas úteis do período × valor/hora × quantidade
 
 Os fatores são: A = 1, B = 1,1273, C = 1,2169 e D = 1,3147. O período usa as horas úteis de cada mês.
 
+## Arquitetura
+
+### MVP 1: como está hoje
+
+Os CSVs são a fonte única da verdade. O build gera, a partir deles, os arquivos do site e do n8n,
+então o simulador e o chat usam exatamente o mesmo motor de cálculo e os mesmos dados.
+
+```mermaid
+flowchart TB
+  subgraph DADOS["data/ · fonte única da verdade"]
+    direction LR
+    CSV1[cargos.csv]
+    CSV2[consultorias.csv]
+    CSV3[horas_uteis.csv]
+    CSV4[modelos.csv]
+  end
+
+  subgraph BUILD["scripts/build.js"]
+    LOAD["load-data.js<br/>lê e valida os CSVs"]
+    CORE["core/simulador.js<br/>motor de cálculo"]
+    TESTES["core/simulador.test.js<br/>15 testes"]
+  end
+
+  subgraph SITE["web/ · site estático na Vercel"]
+    DATAJS[data.js + simulador.js]
+    SIM["Simulador e modelos X, Y, Z<br/>calcula no navegador"]
+    CHAT[Chat]
+    CONF["Configuração<br/>URL do webhook"]
+  end
+
+  subgraph N8N["n8n"]
+    WH[Webhook]
+    LLM["Gemini ou Claude<br/>extrai o pedido em JSON"]
+    CODE["Code node<br/>code-node.js com dados embutidos"]
+    RESP[Respond to Webhook]
+  end
+
+  DADOS --> LOAD --> CORE
+  CORE -.-> TESTES
+  CORE --> DATAJS --> SIM
+  CORE --> CODE
+  LOAD --> PROMPT["prompt-extracao.md<br/>catálogo de cargos e modelos"] --> LLM
+  CONF -.-> CHAT
+  CHAT -- "POST chatInput" --> WH --> LLM --> CODE --> RESP -- "output em Markdown" --> CHAT
+```
+
+### Caminho de uma pergunta no chat
+
+A IA só interpreta o texto e devolve um JSON. Todo número sai do código.
+
+```mermaid
+sequenceDiagram
+  actor C as Coordenador
+  participant W as Site (chat.html)
+  participant N as n8n Webhook
+  participant L as Gemini ou Claude
+  participant K as Code node
+
+  C->>W: "Quanto custa o super power squad no ano?"
+  W->>N: POST { chatInput, sessionId }
+  N->>L: texto + prompt com catálogo e modelos
+  L-->>N: { modelo: "Z", squad_request, fora_da_conta }
+  N->>K: JSON do pedido
+  K->>K: valida cargos e calcula<br/>horas úteis × valor/hora × quantidade
+  K-->>N: { output: tabelas em Markdown }
+  N-->>W: resposta
+  W-->>C: comparação entre as 4 consultorias
+```
+
+### Etapas dos MVPs
+
+```mermaid
+flowchart TB
+  M1["MVP 1 · pronto<br/>Simulador, modelos X/Y/Z,<br/>chat via n8n, dados em CSV"]
+  M2["MVP 2 · próximo<br/>Valores reais do Connecti<br/>no lugar dos CSVs"]
+  M3["MVP 3<br/>Contratos com RAG:<br/>reajuste, vigência, cotas"]
+  M4["MVP 4<br/>Acompanhamento do squad:<br/>previsto × realizado, alertas,<br/>agente no LangGraph"]
+  M5["MVP 5<br/>Custo-benefício:<br/>histórico de entrega + preço,<br/>ferramentas via MCP"]
+
+  M1 --> M2 --> M3 --> M4 --> M5
+
+  classDef pronto fill:#d6f5e8,stroke:#0b7a57,color:#0b3d2c
+  classDef proximo fill:#dfe6ff,stroke:#1f4fff,color:#0c1f66
+  classDef futuro fill:#f3f5f8,stroke:#9aa6bc,color:#334
+  class M1 pronto
+  class M2 proximo
+  class M3,M4,M5 futuro
+```
+
+| Etapa | Entrega | Principal mudança na arquitetura |
+|---|---|---|
+| MVP 1 | Simulador, modelos X/Y/Z, chat | CSVs + motor de cálculo + n8n |
+| MVP 2 | Valores reais | Fluxo agendado no n8n busca os valores no Connecti e atualiza a base |
+| MVP 3 | Perguntas sobre contratos | Contratos quebrados em trechos, embeddings e banco vetorial (RAG) |
+| MVP 4 | Acompanhamento do squad | Agente no LangGraph decide se a pergunta é de cálculo, contrato ou acompanhamento |
+| MVP 5 | Melhor custo-benefício | Histórico de entrega por consultoria e perfil; cálculo exposto como ferramentas via MCP |
+
+A ordem das etapas 3 a 5 ainda está em discussão no time.
+
+### Arquitetura alvo
+
+Em tracejado, o que ainda não existe.
+
+```mermaid
+flowchart LR
+  U[Coordenador] --> UI["Site / Chat"]
+  UI --> AG["Agente LangGraph<br/>decide o caminho"]
+
+  AG --> CALC["Motor de cálculo<br/>(MVP 1)"]
+  AG -.-> RAG["RAG de contratos<br/>(MVP 3)"]
+  AG -.-> ACOMP["Acompanhamento<br/>previsto × realizado (MVP 4)"]
+  AG -.-> CB["Custo-benefício<br/>(MVP 5)"]
+
+  CONNECTI[("Connecti<br/>valores reais")] -. "sync agendado (MVP 2)" .-> BASE[("Base de valores")]
+  BASE --> CALC
+  CONTRATOS[("Contratos")] -.-> VET[("Banco vetorial")] -.-> RAG
+  HIST[("Histórico de entrega")] -.-> CB
+  CALC -. "ferramentas via MCP" .-> MCP[Outros agentes e ferramentas]
+```
+
 ## Estrutura
 
 ```
@@ -88,6 +208,7 @@ web/        o site (pronto para a Vercel)
 | Guia para montar o fluxo no n8n | `web/guia-n8n.html` |
 | Roteiro do pitch de 5 minutos | `web/pitch.html` |
 | Ideias do time | `web/ideias.html` |
+| Arquitetura (diagramas deste README) | `web/arquitetura.html` |
 | Fundadores e download do projeto | `web/equipe.html` |
 | Configuração da URL do n8n | `web/config.html` |
 
@@ -102,8 +223,9 @@ web/        o site (pronto para a Vercel)
 
 3. Rode os testes de novo.
 
-Não edite à mão `web/data.js`, `web/simulador.js`, `web/n8n-assets.js`, `n8n/code-node.js` nem
-`n8n/prompt-extracao.md`: são gerados pelo build.
+Não edite à mão `web/data.js`, `web/simulador.js`, `web/n8n-assets.js`, `web/arquitetura-dados.js`,
+`n8n/code-node.js` nem `n8n/prompt-extracao.md`: são gerados pelo build. Os diagramas da página de
+arquitetura saem dos blocos Mermaid deste README; para mudar a arquitetura, edite aqui e rode o build.
 
 ## Modelos de squad
 

@@ -500,3 +500,13 @@ legend { font-size: 1rem; }
 .codigo-aberto p { color: var(--muted); max-width: 62ch; margin-top: 6px; }
 .codigo-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
 .codigo-aberto .codigo pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* arquitetura */
+.arq-principios h2 { font-size: 1.1rem; margin-bottom: 6px; }
+.arq-principios p { color: var(--muted); }
+.arq-diagramas { display: grid; gap: 16px; }
+.arq-diagrama { display: grid; gap: 8px; min-width: 0; }
+.arq-diagrama h2 { font-size: 1.3rem; }
+.arq-diagrama > p { color: var(--muted); max-width: 70ch; }
+.arq-svg { overflow-x: auto; padding-top: 8px; }
+.arq-svg svg { display: block; margin-inline: auto; max-width: 100%; height: auto; }
