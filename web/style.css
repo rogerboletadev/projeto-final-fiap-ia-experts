@@ -431,3 +431,19 @@ legend { font-size: 1rem; }
 .btn-tema { background: transparent; border: 1px solid var(--line); color: var(--ink); border-radius: 8px; min-height: 34px; min-width: 38px; padding: 4px 8px; line-height: 1; }
 .btn-tema:hover { background: var(--track); }
 @media (max-width: 991.98px) { .btn-tema { margin-top: 8px; width: 100%; } }
+
+/* de → para */
+.de-para { display: grid; gap: 10px; }
+.de-para h3 { font-size: 1.2rem; }
+.de-para-intro { color: var(--muted); max-width: 70ch; }
+.de-para-lista { list-style: none; margin: 4px 0; padding: 0; display: grid; gap: 0; }
+.de-para-lista li { display: grid; grid-template-columns: minmax(0, 11rem) 1.5rem minmax(0, 1fr); align-items: center; gap: 8px; padding: 10px 0; border-top: 1px solid var(--line); }
+.de-para-lista li:last-child { border-bottom: 1px solid var(--line); }
+.papel { font-weight: 600; }
+.seta { color: var(--muted); text-align: center; }
+.destino.fora { color: var(--muted); }
+.destino.eng { color: var(--good); font-weight: 600; }
+@media (max-width: 575.98px) {
+  .de-para-lista li { grid-template-columns: 1fr; gap: 2px; }
+  .seta { display: none; }
+}
