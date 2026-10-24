@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat do Copilot</title>
+  <meta name="description" content="Peça o squad em linguagem natural. O fluxo no n8n entende e calcula.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231F4FFF'/%3E%3Crect x='6' y='8' width='20' height='4' rx='2' fill='white'/%3E%3Crect x='6' y='14' width='14' height='4' rx='2' fill='white' opacity='.8'/%3E%3Crect x='6' y='20' width='9' height='4' rx='2' fill='white' opacity='.6'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="wrap topo-inner">
+      <a class="marca" href="index.html">Squad Cost Copilot</a>
+      <nav class="topo-nav" aria-label="Principal">
+        <a href="index.html">Simulador</a>
+        <a href="chat.html" aria-current="page">Chat</a>
+        <a href="guia-n8n.html">Guia do n8n</a>
+        <a href="config.html">Configuração</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap pagina">
+    <h1>Peça o squad do seu jeito</h1>
+    <p class="lead">Escreva o pedido em português. O fluxo no n8n entende os cargos e o período e devolve a comparação entre as consultorias.</p>
+
+    <p class="nota" id="aviso-config" hidden>O n8n ainda não está conectado. Cole a URL do webhook na página de <a href="config.html">Configuração</a>.</p>
+
+    <div class="painel chat">
+      <div class="chat-log" id="log" aria-live="polite"></div>
+
+      <div class="exemplos">
+        <span class="rotulo">Exemplos</span>
+        <button type="button" class="chip" data-texto="2 Backend N3 e 1 Full Stack N3 de janeiro a junho">2 Backend N3 e 1 Full Stack N3</button>
+        <button type="button" class="chip" data-texto="Quanto custa um squad com 1 Tech Lead, 3 Backend pleno e 1 QA por 3 meses a partir de março?">Squad com Tech Lead e QA</button>
+      </div>
+
+      <form class="chat-form" id="form">
+        <label for="msg" class="rotulo">Seu pedido</label>
+        <div class="chat-linha">
+          <textarea id="msg" rows="2" placeholder="Ex.: 2 Backend N3 de janeiro a junho" required></textarea>
+          <button type="submit" class="btn" id="enviar">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <p>Projeto de estudo do curso FIAP Experts. Consultorias e valores fictícios.</p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="conexao.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
